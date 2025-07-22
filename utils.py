@@ -1,4 +1,4 @@
-import pickle
+import joblib
 import re
 
 def clean_text(text):
@@ -7,13 +7,10 @@ def clean_text(text):
     text = re.sub(r"\W+", " ", text)
     text = re.sub(r"\d+", "", text)
     return text.strip()
-
 def load_model():
-    with open("model/vectorizer.pkl" , "rb") as vf:
-        vectorizer = pickle.load(vf)
-    with open("model/spam_classifier.pkl","rb") as mf:
-        model = pickle.load(mf)
-    return vectorizer , model
+    vectorizer = joblib.load("model/vectorizer.pkl")
+    model = joblib.load("model/spam_classifier.pkl")
+    return vectorizer, model
 
 def predict_spam(text, vectorizer, model):
     cleaned = clean_text(text)
